@@ -84,8 +84,8 @@ export default function Footer() {
               <a href="mailto:writersrinivasan@gmail.com" className="block text-white/60 hover:text-white text-sm transition-colors">
                 writersrinivasan@gmail.com
               </a>
-              <a href="https://yoto.digital" target="_blank" rel="noopener noreferrer" className="block text-white/60 hover:text-white text-sm transition-colors">
-                yoto.digital
+              <a href="https://www.oneyoto.in/#/founder" target="_blank" rel="noopener noreferrer" className="block text-white/60 hover:text-white text-sm transition-colors">
+                oneyoto.in
               </a>
             </div>
             {/* Social */}
