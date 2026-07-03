@@ -98,20 +98,12 @@ export default function BookingForm() {
 
     setLoading(true)
     try {
-      // ── Wire to your form service here ──────────────────────────────────────
-      // Option A — Formspree:
-      //   const res = await fetch('https://formspree.io/f/YOUR_ID', {
-      //     method: 'POST',
-      //     headers: { 'Content-Type': 'application/json' },
-      //     body: JSON.stringify(form),
-      //   })
-      //   if (!res.ok) throw new Error('Submission failed')
-      //
-      // Option B — Netlify Forms: add data-netlify="true" to <form> tag
-      // ────────────────────────────────────────────────────────────────────────
-
-      // Placeholder: simulated 1.2s delay
-      await new Promise(r => setTimeout(r, 1200))
+      const res = await fetch('https://formspree.io/f/maqgaqzb', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify(form),
+      })
+      if (!res.ok) throw new Error('Submission failed')
       setSubmitted(true)
     } catch {
       setServerError('Something went wrong. Please try again or email writersrinivasan@gmail.com directly.')
