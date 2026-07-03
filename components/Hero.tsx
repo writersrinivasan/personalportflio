@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
+import Image from 'next/image'
 
 const floatingCards = [
   { emoji: '🚀', text: 'First AI App', sub: 'Day 1 of class', color: 'bg-orange-50 border-orange-200', pos: 'top-32 left-8 lg:left-16 xl:left-24', delay: '0s' },
@@ -51,6 +52,26 @@ export default function Hero() {
 
       {/* Main content */}
       <div className="relative z-10 max-w-5xl mx-auto px-6 py-32">
+        {/* Profile photo */}
+        <div className="reveal flex justify-center mb-7">
+          <div className="relative">
+            {/* Coral glow ring */}
+            <div className="absolute inset-[-4px] rounded-full"
+              style={{ background: 'linear-gradient(135deg,#E8956A,#CF6A3E,#A84B2A)', filter: 'blur(6px)', opacity: 0.55 }} />
+            {/* Photo */}
+            <div className="relative w-28 h-28 md:w-32 md:h-32 rounded-full overflow-hidden"
+              style={{ boxShadow: '0 0 0 3px rgba(207,106,62,0.6), 0 8px 32px rgba(0,0,0,0.5)' }}>
+              <Image
+                src="/srinivasan.png"
+                alt="Srinivasan Ramanujam"
+                fill
+                className="object-cover object-top"
+                priority
+              />
+            </div>
+          </div>
+        </div>
+
         {/* Live batch badge */}
         <div className="reveal inline-flex items-center gap-2 bg-white/15 backdrop-blur-sm border border-white/25 text-white text-xs font-semibold px-4 py-2 rounded-full mb-8 tracking-wide">
           <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse-slow" />
