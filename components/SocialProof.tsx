@@ -90,22 +90,11 @@ export default function SocialProof() {
           <span className="w-8 h-px bg-brand-orange" />
           <span className="text-brand-orange text-xs font-bold tracking-widest uppercase">Social Proof</span>
         </div>
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-14">
+        <div className="mb-14">
           <h2 className="reveal reveal-delay-1 text-4xl md:text-5xl lg:text-6xl font-extrabold text-gray-900 leading-tight tracking-tight">
             40,000+ people<br />
             <span className="gradient-text">can&apos;t be wrong.</span>
           </h2>
-          <a
-            href="https://www.youtube.com/@srinivasanramanujam7534"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="reveal reveal-delay-2 flex items-center gap-3 bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-full text-sm font-semibold transition-all hover:-translate-y-0.5 hover:shadow-lg hover:shadow-red-200 self-start lg:self-auto"
-          >
-            <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
-            </svg>
-            Watch on YouTube
-          </a>
         </div>
 
         {/* Testimonials */}
@@ -135,6 +124,88 @@ export default function SocialProof() {
               <p className="text-gray-600 text-sm leading-relaxed italic">&ldquo;{t.text}&rdquo;</p>
             </div>
           ))}
+        </div>
+
+        {/* ── YouTube Widget ── */}
+        <div className="reveal mb-14">
+          <a
+            href="https://www.youtube.com/@srinivasanramanujam7534"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group relative flex flex-col md:flex-row items-center gap-8 md:gap-12 bg-brand-dark rounded-3xl overflow-hidden px-8 py-10 md:px-14 md:py-12 hover:scale-[1.012] transition-transform duration-500 cursor-pointer"
+            style={{ boxShadow: '0 24px 64px rgba(21,11,8,0.25), 0 0 0 1px rgba(207,106,62,0.12)' }}
+          >
+            {/* Ambient warm glow behind play button */}
+            <div className="absolute left-0 top-0 w-72 h-72 rounded-full pointer-events-none"
+              style={{ background: 'radial-gradient(ellipse, rgba(239,68,68,0.12) 0%, transparent 70%)', transform: 'translate(-20%, -20%)' }} />
+
+            {/* Right side geometric decoration */}
+            <div className="absolute right-0 top-0 bottom-0 w-64 pointer-events-none overflow-hidden hidden md:block">
+              <div className="absolute right-[-60px] top-[-60px] w-64 h-64 rounded-full border border-white/5" />
+              <div className="absolute right-[-30px] top-[-30px] w-40 h-40 rounded-full border border-white/5" />
+              <div className="absolute right-[20px] bottom-[-40px] w-48 h-48 rounded-full border border-white/5" />
+            </div>
+
+            {/* Play button with pulse rings */}
+            <div className="relative flex-shrink-0 flex items-center justify-center w-24 h-24 md:w-28 md:h-28">
+              {/* Ring 1 */}
+              <div className="absolute inset-0 rounded-full bg-red-600"
+                style={{ animation: 'ytPulse 2.2s ease-out infinite' }} />
+              {/* Ring 2 */}
+              <div className="absolute inset-0 rounded-full bg-red-600"
+                style={{ animation: 'ytPulse 2.2s ease-out infinite 0.7s' }} />
+              {/* Ring 3 */}
+              <div className="absolute inset-0 rounded-full bg-red-600"
+                style={{ animation: 'ytPulse 2.2s ease-out infinite 1.4s' }} />
+              {/* Button face */}
+              <div className="relative w-24 h-24 md:w-28 md:h-28 rounded-full bg-red-600 flex items-center justify-center group-hover:scale-110 transition-transform duration-300"
+                style={{ boxShadow: '0 0 40px rgba(239,68,68,0.5), 0 8px 32px rgba(0,0,0,0.4)' }}>
+                <svg className="w-9 h-9 md:w-11 md:h-11 text-white ml-1.5" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M8 5v14l11-7z"/>
+                </svg>
+              </div>
+            </div>
+
+            {/* Text content */}
+            <div className="relative z-10 flex-1 text-center md:text-left">
+              <div className="flex items-center justify-center md:justify-start gap-2 mb-3">
+                <svg className="w-5 h-5 text-red-500" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                </svg>
+                <span className="text-red-500 text-xs font-bold tracking-widest uppercase">YouTube Channel</span>
+              </div>
+              <h3 className="text-2xl md:text-3xl lg:text-4xl font-extrabold text-white leading-tight mb-2 tracking-tight">
+                Free GenAI lessons.<br className="hidden md:block" />
+                <span style={{ background: 'linear-gradient(90deg,#E8956A,#CF6A3E)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+                  No paywalls.
+                </span>
+              </h3>
+              <p className="text-white/45 text-sm leading-relaxed max-w-md mb-5">
+                Tutorials, project walkthroughs, agent breakdowns, and career strategy — all free. 40,000+ learners already watching.
+              </p>
+              {/* Stats row */}
+              <div className="flex items-center justify-center md:justify-start gap-6 mb-6">
+                {[
+                  { value: '40K+', label: 'Learners' },
+                  { value: '50+',  label: 'Videos' },
+                  { value: '25+',  label: 'Yrs Exp.' },
+                ].map(s => (
+                  <div key={s.label} className="text-center md:text-left">
+                    <div className="text-lg font-extrabold text-white leading-none">{s.value}</div>
+                    <div className="text-[10px] text-white/35 uppercase tracking-widest font-semibold">{s.label}</div>
+                  </div>
+                ))}
+              </div>
+              {/* CTA pill */}
+              <div className="inline-flex items-center gap-2 bg-red-600 group-hover:bg-red-500 text-white text-sm font-bold px-6 py-2.5 rounded-full transition-colors"
+                style={{ boxShadow: '0 4px 16px rgba(239,68,68,0.4)' }}>
+                Watch Now
+                <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                </svg>
+              </div>
+            </div>
+          </a>
         </div>
 
         {/* ── Corporate clients marquee ── */}
