@@ -27,12 +27,32 @@ const testimonials = [
 ]
 
 const corporateClients = [
-  'Add Client 1',
-  'Add Client 2',
-  'Add Client 3',
-  'Add Client 4',
-  'Add Client 5',
-  'Add Client 6',
+  'Hexaware',
+  'Fichtner Consulting',
+  'AstraZeneca',
+  'Amdocs',
+  'Timken',
+  'John Deere',
+  'Toshiba',
+  'People Inc.',
+  'E&Y',
+]
+
+const academicClients = [
+  { name: 'GLA University', location: 'Mathura' },
+  { name: 'Karpagam College of Engineering', location: 'Coimbatore' },
+  { name: 'Kalasalingam University', location: 'Srivilliputhur' },
+  { name: 'SRM University', location: 'Chennai' },
+  { name: 'Dhanalakshmi Srinivasan University', location: 'Perambalur' },
+  { name: 'StarEx University', location: '' },
+  { name: 'St Joseph College of Engineering', location: 'OMR, Chennai' },
+  { name: 'UPES University', location: 'Dehradun' },
+  { name: 'IILM', location: 'Noida' },
+  { name: 'Mohan Babu University', location: 'Tirupati' },
+  { name: 'Vidya Pratishthan', location: 'Pune' },
+  { name: 'Sri Sai University', location: 'Pathankot' },
+  { name: 'Sri Sri University', location: '' },
+  { name: 'Yenepoya University', location: 'Mangalore' },
 ]
 
 export default function SocialProof() {
@@ -48,12 +68,12 @@ export default function SocialProof() {
   }, [])
 
   return (
-    <section id="proof" ref={ref} className="bg-brand-light section-pad border-t border-violet-100">
+    <section id="proof" ref={ref} className="bg-brand-light section-pad border-t border-orange-100">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="reveal flex items-center gap-3 mb-5">
-          <span className="w-8 h-px bg-brand-violet" />
-          <span className="text-brand-violet text-xs font-bold tracking-widest uppercase">Social Proof</span>
+          <span className="w-8 h-px bg-brand-orange" />
+          <span className="text-brand-orange text-xs font-bold tracking-widest uppercase">Social Proof</span>
         </div>
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-14">
           <h2 className="reveal reveal-delay-1 text-4xl md:text-5xl lg:text-6xl font-extrabold text-gray-900 leading-tight tracking-tight">
@@ -104,23 +124,44 @@ export default function SocialProof() {
         </div>
 
         {/* Corporate clients */}
-        <div className="reveal">
-          <div className="text-center text-sm font-bold text-gray-400 tracking-widest uppercase mb-8">
-            Trusted by companies including
+        <div className="reveal mb-12">
+          <div className="flex items-center gap-3 mb-6">
+            <span className="w-6 h-px bg-brand-orange" />
+            <span className="text-xs font-bold tracking-widest uppercase text-brand-orange">Corporate Clients</span>
           </div>
-          <div className="grid grid-cols-3 md:grid-cols-6 gap-4">
+          <div className="grid grid-cols-3 md:grid-cols-5 gap-3">
             {corporateClients.map((c) => (
               <div
                 key={c}
-                className="bg-white border border-gray-200 rounded-2xl h-16 flex items-center justify-center text-xs font-semibold text-gray-400 hover:border-brand-violet hover:text-brand-violet transition-colors px-3 text-center"
+                className="bg-white border border-gray-200 rounded-2xl h-14 flex items-center justify-center text-xs font-semibold text-gray-600 hover:border-brand-orange hover:text-brand-orange transition-colors px-3 text-center"
               >
                 {c}
               </div>
             ))}
           </div>
-          <p className="text-center text-xs text-gray-400 mt-4 italic">
-            * Replace placeholder names with your actual corporate clients
-          </p>
+        </div>
+
+        {/* Academic institutions */}
+        <div className="reveal">
+          <div className="flex items-center gap-3 mb-6">
+            <span className="w-6 h-px bg-brand-orange" />
+            <span className="text-xs font-bold tracking-widest uppercase text-brand-orange">Academic Institutions &amp; Universities</span>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-3">
+            {academicClients.map((a) => (
+              <div
+                key={a.name}
+                className="bg-white border border-gray-200 rounded-2xl p-3 flex flex-col items-center justify-center text-center hover:border-brand-orange transition-colors group min-h-[72px]"
+              >
+                <div className="text-xs font-semibold text-gray-700 group-hover:text-brand-orange transition-colors leading-tight">
+                  {a.name}
+                </div>
+                {a.location && (
+                  <div className="text-[10px] text-gray-400 mt-1 leading-tight">{a.location}</div>
+                )}
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </section>
