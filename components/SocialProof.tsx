@@ -128,11 +128,8 @@ export default function SocialProof() {
 
         {/* ── YouTube Widget ── */}
         <div className="reveal mb-14">
-          <a
-            href="https://www.youtube.com/@srinivasanramanujam7534"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="group relative flex flex-col md:flex-row items-center gap-8 md:gap-12 bg-brand-dark rounded-3xl overflow-hidden px-8 py-10 md:px-14 md:py-12 hover:scale-[1.012] transition-transform duration-500 cursor-pointer"
+          <div
+            className="group relative flex flex-col md:flex-row items-center gap-8 md:gap-12 bg-brand-dark rounded-3xl overflow-hidden px-8 py-10 md:px-14 md:py-12"
             style={{ boxShadow: '0 24px 64px rgba(21,11,8,0.25), 0 0 0 1px rgba(207,106,62,0.12)' }}
           >
             {/* Ambient warm glow behind play button */}
@@ -147,7 +144,12 @@ export default function SocialProof() {
             </div>
 
             {/* Play button with pulse rings */}
-            <div className="relative flex-shrink-0 flex items-center justify-center w-24 h-24 md:w-28 md:h-28">
+            <a
+              href="https://www.youtube.com/@srinivasanramanujam7534"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="relative flex-shrink-0 flex items-center justify-center w-24 h-24 md:w-28 md:h-28"
+            >
               {/* Ring 1 */}
               <div className="absolute inset-0 rounded-full bg-red-600"
                 style={{ animation: 'ytPulse 2.2s ease-out infinite' }} />
@@ -158,13 +160,13 @@ export default function SocialProof() {
               <div className="absolute inset-0 rounded-full bg-red-600"
                 style={{ animation: 'ytPulse 2.2s ease-out infinite 1.4s' }} />
               {/* Button face */}
-              <div className="relative w-24 h-24 md:w-28 md:h-28 rounded-full bg-red-600 flex items-center justify-center group-hover:scale-110 transition-transform duration-300"
+              <div className="relative w-24 h-24 md:w-28 md:h-28 rounded-full bg-red-600 flex items-center justify-center hover:scale-110 transition-transform duration-300"
                 style={{ boxShadow: '0 0 40px rgba(239,68,68,0.5), 0 8px 32px rgba(0,0,0,0.4)' }}>
                 <svg className="w-9 h-9 md:w-11 md:h-11 text-white ml-1.5" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M8 5v14l11-7z"/>
                 </svg>
               </div>
-            </div>
+            </a>
 
             {/* Text content */}
             <div className="relative z-10 flex-1 text-center md:text-left">
@@ -196,16 +198,35 @@ export default function SocialProof() {
                   </div>
                 ))}
               </div>
-              {/* CTA pill */}
-              <div className="inline-flex items-center gap-2 bg-red-600 group-hover:bg-red-500 text-white text-sm font-bold px-6 py-2.5 rounded-full transition-colors"
-                style={{ boxShadow: '0 4px 16px rgba(239,68,68,0.4)' }}>
-                Watch Now
-                <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
-                </svg>
+              {/* CTA pills */}
+              <div className="flex flex-wrap items-center justify-center md:justify-start gap-3">
+                <a
+                  href="https://www.youtube.com/@srinivasanramanujam7534"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 bg-red-600 hover:bg-red-500 text-white text-sm font-bold px-6 py-2.5 rounded-full transition-colors"
+                  style={{ boxShadow: '0 4px 16px rgba(239,68,68,0.4)' }}
+                >
+                  Watch Now
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                  </svg>
+                </a>
+                <a
+                  href="https://www.youtube.com/@srinivasanramanujam7534/shorts"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 border border-red-500/40 hover:border-red-500 hover:bg-red-600/10 text-red-400 hover:text-red-300 text-sm font-bold px-6 py-2.5 rounded-full transition-all"
+                >
+                  {/* Shorts lightning icon */}
+                  <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M7 2l-4 13h6l-1 7 9-13h-6l3-7z"/>
+                  </svg>
+                  Shorts
+                </a>
               </div>
             </div>
-          </a>
+          </div>
         </div>
 
         {/* ── Corporate clients marquee ── */}
