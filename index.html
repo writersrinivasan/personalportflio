@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Srinivasan Ramanujam — GenAI & Agentic AI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #07070d;
+      --bg2: #0d0d16;
+      --white: #eeede8;
+      --muted: #606070;
+      --dim: rgba(238,237,232,0.45);
+      --accent: #7c6ee0;
+      --accent2: #3ecfcf;
+      --border: rgba(255,255,255,0.07);
+      --border2: rgba(255,255,255,0.12);
+    }
+
+    html { scroll-behavior: smooth; font-size: 16px; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--white);
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    /* ─── CURSOR ─── */
+    #cur {
+      position: fixed; z-index: 9999; pointer-events: none;
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--white);
+      transform: translate(-50%,-50%);
+      transition: width .25s, height .25s, background .25s;
+    }
+    #cur-ring {
+      position: fixed; z-index: 9998; pointer-events: none;
+      width: 40px; height: 40px; border-radius: 50%;
+      border: 1px solid rgba(255,255,255,.25);
+      transform: translate(-50%,-50%);
+      transition: border-color .25s;
+    }
+    body:has(a:hover) #cur { width: 14px; height: 14px; background: var(--accent); }
+    body:has(a:hover) #cur-ring { border-color: rgba(124,110,224,.5); }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 28px 56px;
+      transition: background .4s, backdrop-filter .4s, border-color .4s;
+      border-bottom: 1px solid transparent;
+    }
+    nav.scrolled {
+      background: rgba(7,7,13,.88);
+      backdrop-filter: blur(24px);
+      border-color: var(--border);
+    }
+    .nav-logo {
+      font-size: 13px; font-weight: 400; letter-spacing: .06em;
+      color: var(--white); text-decoration: none;
+    }
+    .nav-logo span { color: var(--muted); }
+    .nav-links { display: flex; gap: 40px; list-style: none; }
+    .nav-links a {
+      font-size: 12px; font-weight: 400; letter-spacing: .06em;
+      color: var(--muted); text-decoration: none;
+      transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--white); }
+
+    /* ─── HERO ─── */
+    .hero {
+      position: relative; height: 100vh; min-height: 700px;
+      display: flex; flex-direction: column;
+      justify-content: center; align-items: center;
+      text-align: center; overflow: hidden;
+    }
+
+    /* animated gradient mesh */
+    .hero-canvas {
+      position: absolute; inset: 0;
+      background: var(--bg);
+    }
+    .hero-canvas::before {
+      content: '';
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 700px 600px at 80% 20%, rgba(124,110,224,.18) 0%, transparent 70%),
+        radial-gradient(ellipse 500px 500px at 10% 80%, rgba(62,207,207,.10) 0%, transparent 70%),
+        radial-gradient(ellipse 800px 600px at 50% 50%, rgba(124,110,224,.05) 0%, transparent 60%);
+      animation: meshMove 12s ease-in-out infinite alternate;
+    }
+    @keyframes meshMove {
+      0%   { opacity: 1; transform: scale(1) rotate(0deg); }
+      100% { opacity: .8; transform: scale(1.08) rotate(1.5deg); }
+    }
+
+    /* noise overlay */
+    .hero-canvas::after {
+      content: '';
+      position: absolute; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+      opacity: .022;
+    }
+
+    .hero-inner {
+      position: relative; z-index: 2;
+    }
+
+    .hero-tag {
+      font-size: 10px; font-weight: 500; letter-spacing: .22em;
+      text-transform: uppercase; color: var(--muted);
+      margin-bottom: 36px;
+    }
+
+    .hero-hl {
+      margin-bottom: 44px; line-height: .92;
+    }
+    .hl-a {
+      display: block;
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic; font-weight: 300;
+      font-size: clamp(72px, 9.5vw, 136px);
+      color: var(--dim);
+      letter-spacing: -.02em;
+    }
+    .hl-b {
+      display: block;
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      font-size: clamp(72px, 9.5vw, 136px);
+      color: var(--white);
+      letter-spacing: -.04em;
+    }
+
+    .hero-sub {
+      font-size: 15px; font-weight: 300; line-height: 1.75;
+      color: var(--muted); max-width: 380px;
+      margin: 0 auto 52px;
+    }
+
+    .hero-cta {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 14px 30px;
+      border: 1px solid var(--border2);
+      border-radius: 100px;
+      font-size: 12px; font-weight: 400; letter-spacing: .06em;
+      color: var(--white); text-decoration: none;
+      background: rgba(255,255,255,.04);
+      backdrop-filter: blur(12px);
+      transition: background .3s, border-color .3s;
+    }
+    .hero-cta:hover {
+      background: rgba(255,255,255,.09);
+      border-color: rgba(255,255,255,.3);
+    }
+
+    /* hero bottom bar */
+    .hero-foot {
+      position: absolute; bottom: 36px;
+      left: 56px; right: 56px; z-index: 2;
+      display: flex; justify-content: space-between; align-items: flex-end;
+    }
+    .chips { display: flex; gap: 10px; }
+    .chip {
+      display: inline-flex; align-items: center; gap: 7px;
+      padding: 7px 14px;
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      font-size: 11px; color: var(--muted);
+      backdrop-filter: blur(8px);
+    }
+    .chip .dot {
+      width: 5px; height: 5px; border-radius: 50%;
+      background: #4ade80;
+      box-shadow: 0 0 6px #4ade80;
+      animation: blink 2.5s ease-in-out infinite;
+    }
+    @keyframes blink {
+      0%,100% { opacity: 1; } 50% { opacity: .35; }
+    }
+    .hero-copy { font-size: 11px; color: var(--muted); letter-spacing: .04em; }
+
+    /* ─── MARQUEE ─── */
+    .marquee-wrap {
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 18px 0;
+      overflow: hidden;
+    }
+    .marquee-track {
+      display: flex; gap: 0;
+      animation: marquee 28s linear infinite;
+      white-space: nowrap;
+    }
+    .marquee-track:hover { animation-play-state: paused; }
+    .marquee-item {
+      display: inline-flex; align-items: center; gap: 24px;
+      padding: 0 24px;
+      font-size: 11px; font-weight: 500;
+      letter-spacing: .18em; text-transform: uppercase;
+      color: var(--muted);
+    }
+    .marquee-item .sep { color: var(--accent); font-size: 16px; }
+    @keyframes marquee {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ─── SHARED ─── */
+    .section-pad { padding: 100px 56px; max-width: 1200px; margin: 0 auto; }
+    .section-label {
+      display: inline-flex; align-items: center; gap: 14px;
+      font-size: 10px; font-weight: 500; letter-spacing: .2em;
+      text-transform: uppercase; color: var(--muted);
+      margin-bottom: 56px;
+    }
+    .section-label::before { content: ''; width: 28px; height: 1px; background: var(--muted); }
+
+    /* ─── ABOUT ─── */
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
+    .about-headline {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic; font-weight: 300;
+      font-size: clamp(42px, 4.5vw, 68px);
+      line-height: 1.08; letter-spacing: -.02em;
+    }
+    .about-headline em { color: var(--dim); font-style: normal; }
+    .about-text {
+      font-size: 15px; font-weight: 300; line-height: 1.85;
+      color: var(--muted); margin-bottom: 32px;
+    }
+    .about-text strong { color: var(--white); font-weight: 400; }
+    .stats-row { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 40px; }
+    .stat { border-top: 1px solid var(--border); padding-top: 20px; }
+    .stat-n {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 52px; font-weight: 300; line-height: 1;
+      margin-bottom: 6px;
+    }
+    .stat-l { font-size: 11px; color: var(--muted); letter-spacing: .04em; }
+
+    /* ─── SERVICES ─── */
+    .services-section { border-top: 1px solid var(--border); }
+    .services-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      border: 1px solid var(--border);
+      gap: 1px; background: var(--border);
+    }
+    .svc {
+      background: var(--bg); padding: 44px 32px 48px;
+      transition: background .35s;
+      position: relative; overflow: hidden;
+    }
+    .svc::before {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(124,110,224,.07) 0%, transparent 60%);
+      opacity: 0; transition: opacity .35s;
+    }
+    .svc:hover { background: #0c0c17; }
+    .svc:hover::before { opacity: 1; }
+    .svc-num {
+      font-size: 11px; letter-spacing: .14em; color: var(--muted);
+      margin-bottom: 44px;
+    }
+    .svc-icon {
+      width: 36px; height: 36px; margin-bottom: 24px;
+      opacity: .5;
+    }
+    .svc-title { font-size: 17px; font-weight: 500; letter-spacing: -.01em; margin-bottom: 14px; }
+    .svc-desc { font-size: 13px; font-weight: 300; line-height: 1.85; color: var(--muted); }
+
+    /* ─── EXPERTISE ─── */
+    .expertise-section { border-top: 1px solid var(--border); }
+    .exp-header {
+      display: flex; justify-content: space-between; align-items: flex-end;
+      margin-bottom: 52px;
+    }
+    .exp-hl {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic; font-weight: 300;
+      font-size: clamp(40px, 4vw, 64px);
+      line-height: 1;
+    }
+    .exp-sub { font-size: 13px; font-weight: 300; color: var(--muted); max-width: 220px; text-align: right; }
+    .tags { display: flex; flex-wrap: wrap; gap: 10px; }
+    .tag {
+      padding: 9px 18px;
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      font-size: 12px; font-weight: 300;
+      color: rgba(238,237,232,.65);
+      transition: all .22s;
+    }
+    .tag:hover, .tag.hi {
+      border-color: rgba(124,110,224,.5);
+      background: rgba(124,110,224,.08);
+      color: var(--white);
+    }
+    .tag.hi2 {
+      border-color: rgba(62,207,207,.4);
+      background: rgba(62,207,207,.07);
+      color: var(--white);
+    }
+
+    /* ─── YOTO ─── */
+    .yoto-section { border-top: 1px solid var(--border); }
+    .yoto-card {
+      border: 1px solid var(--border);
+      display: grid; grid-template-columns: 1fr auto;
+      gap: 80px; align-items: center;
+      padding: 72px 72px;
+      position: relative; overflow: hidden;
+    }
+    .yoto-card::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(ellipse 600px 400px at 0% 50%, rgba(124,110,224,.07) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .yoto-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 10px; letter-spacing: .2em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 18px;
+    }
+    .yoto-badge::before { content: ''; width: 20px; height: 1px; background: var(--accent); }
+    .yoto-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: clamp(36px, 4vw, 58px);
+      line-height: 1.05; margin-bottom: 20px;
+    }
+    .yoto-desc { font-size: 14px; font-weight: 300; color: var(--muted); line-height: 1.85; max-width: 520px; }
+    .yoto-link {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 13px; color: var(--white); text-decoration: none;
+      border-bottom: 1px solid var(--border2); padding-bottom: 3px;
+      white-space: nowrap; transition: border-color .2s;
+    }
+    .yoto-link:hover { border-color: var(--white); }
+
+    /* ─── CONTACT ─── */
+    .contact-section { border-top: 1px solid var(--border); text-align: center; }
+    .contact-hl {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic; font-weight: 300;
+      font-size: clamp(60px, 8vw, 110px);
+      line-height: .95; letter-spacing: -.025em;
+      margin-bottom: 36px;
+    }
+    .contact-sub { font-size: 15px; color: var(--muted); margin-bottom: 52px; font-weight: 300; }
+    .contact-btns { display: flex; gap: 14px; justify-content: center; }
+    .btn-p {
+      padding: 16px 38px; background: var(--white); color: var(--bg);
+      border-radius: 100px; font-size: 13px; font-weight: 500;
+      letter-spacing: .04em; text-decoration: none;
+      transition: opacity .2s;
+    }
+    .btn-p:hover { opacity: .82; }
+    .btn-s {
+      padding: 16px 38px;
+      border: 1px solid var(--border2);
+      color: var(--white); border-radius: 100px;
+      font-size: 13px; font-weight: 400; letter-spacing: .04em;
+      text-decoration: none; transition: background .2s;
+    }
+    .btn-s:hover { background: rgba(255,255,255,.05); }
+
+    /* ─── FOOTER ─── */
+    .footer-rule { border: none; border-top: 1px solid var(--border); }
+    footer {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 36px 56px; max-width: 1200px; margin: 0 auto;
+    }
+    .footer-l { font-size: 12px; color: var(--muted); }
+    .footer-links { display: flex; gap: 32px; list-style: none; }
+    .footer-links a { font-size: 11px; color: var(--muted); text-decoration: none; letter-spacing: .04em; transition: color .2s; }
+    .footer-links a:hover { color: var(--white); }
+    .footer-r { font-size: 11px; color: var(--muted); letter-spacing: .04em; }
+
+    /* ─── SCROLL FADE ─── */
+    .fade {
+      opacity: 0; transform: translateY(36px);
+      transition: opacity .85s cubic-bezier(.16,1,.3,1), transform .85s cubic-bezier(.16,1,.3,1);
+    }
+    .fade.in { opacity: 1; transform: none; }
+    .fade[data-delay="1"] { transition-delay: .1s; }
+    .fade[data-delay="2"] { transition-delay: .2s; }
+    .fade[data-delay="3"] { transition-delay: .3s; }
+
+    /* ─── MOBILE ─── */
+    @media (max-width: 900px) {
+      nav { padding: 24px 28px; }
+      .nav-links { display: none; }
+      .hero-foot { left: 28px; right: 28px; }
+      .section-pad { padding: 72px 28px; }
+      .about-grid { grid-template-columns: 1fr; gap: 48px; }
+      .services-grid { grid-template-columns: 1fr 1fr; }
+      .exp-header { flex-direction: column; align-items: flex-start; gap: 16px; }
+      .exp-sub { text-align: left; }
+      .yoto-card { grid-template-columns: 1fr; gap: 32px; padding: 48px 36px; }
+      footer { flex-direction: column; gap: 28px; text-align: center; padding: 36px 28px; }
+      .footer-links { flex-wrap: wrap; justify-content: center; }
+    }
+    @media (max-width: 600px) {
+      .services-grid { grid-template-columns: 1fr; }
+      .stats-row { grid-template-columns: 1fr 1fr; }
+      .contact-btns { flex-direction: column; align-items: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Cursor -->
+  <div id="cur"></div>
+  <div id="cur-ring"></div>
+
+  <!-- Nav -->
+  <nav id="nav">
+    <a href="#" class="nav-logo">Srinivasan <span>Ramanujam</span></a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#expertise">Expertise</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-canvas"></div>
+    <div class="hero-inner">
+      <p class="hero-tag">Product Developer &nbsp;·&nbsp; Consultant &nbsp;·&nbsp; Speaker &nbsp;·&nbsp; Corporate Trainer</p>
+      <div class="hero-hl">
+        <span class="hl-a">Building AI that</span>
+        <span class="hl-b">ACTS</span>
+      </div>
+      <p class="hero-sub">GenAI &amp; Agentic AI — for enterprises ready to move beyond the hype.</p>
+      <a href="#services" class="hero-cta">Explore what I do &nbsp;↘</a>
+    </div>
+    <div class="hero-foot">
+      <div class="chips">
+        <span class="chip"><span class="dot"></span>Open to projects</span>
+        <span class="chip">Founder, Yoto</span>
+      </div>
+      <span class="hero-copy">©2026</span>
+    </div>
+  </section>
+
+  <!-- Marquee -->
+  <div class="marquee-wrap">
+    <div class="marquee-track" id="mq">
+      <span class="marquee-item">Generative AI <span class="sep">✦</span></span>
+      <span class="marquee-item">Agentic AI <span class="sep">✦</span></span>
+      <span class="marquee-item">Large Language Models <span class="sep">✦</span></span>
+      <span class="marquee-item">Prompt Engineering <span class="sep">✦</span></span>
+      <span class="marquee-item">RAG Systems <span class="sep">✦</span></span>
+      <span class="marquee-item">AI Product Architecture <span class="sep">✦</span></span>
+      <span class="marquee-item">Multi-Agent Systems <span class="sep">✦</span></span>
+      <span class="marquee-item">Enterprise AI <span class="sep">✦</span></span>
+      <span class="marquee-item">Generative AI <span class="sep">✦</span></span>
+      <span class="marquee-item">Agentic AI <span class="sep">✦</span></span>
+      <span class="marquee-item">Large Language Models <span class="sep">✦</span></span>
+      <span class="marquee-item">Prompt Engineering <span class="sep">✦</span></span>
+      <span class="marquee-item">RAG Systems <span class="sep">✦</span></span>
+      <span class="marquee-item">AI Product Architecture <span class="sep">✦</span></span>
+      <span class="marquee-item">Multi-Agent Systems <span class="sep">✦</span></span>
+      <span class="marquee-item">Enterprise AI <span class="sep">✦</span></span>
+    </div>
+  </div>
+
+  <!-- About -->
+  <div id="about" class="section-pad">
+    <div class="section-label fade">About</div>
+    <div class="about-grid">
+      <div class="fade" data-delay="1">
+        <h2 class="about-headline">23 years<br>building<br><em>what comes next.</em></h2>
+      </div>
+      <div>
+        <p class="about-text fade" data-delay="1">
+          I'm <strong>Srinivasan Ramanujam</strong> — a GenAI &amp; Agentic AI specialist who builds real products, trains enterprise teams, and helps organisations move from AI curiosity to AI capability.
+        </p>
+        <p class="about-text fade" data-delay="2">
+          As founder of <strong>Yoto</strong>, I've spent 7 years at the entrepreneurial edge of artificial intelligence — from architecting production-grade AI systems to speaking at 50+ institutions across India on the future of intelligent machines. Previously, 16 years honing expertise across software development and system architecture in the IT industry.
+        </p>
+        <div class="stats-row">
+          <div class="stat fade" data-delay="1">
+            <div class="stat-n">23+</div>
+            <div class="stat-l">Years in tech</div>
+          </div>
+          <div class="stat fade" data-delay="2">
+            <div class="stat-n">7+</div>
+            <div class="stat-l">Years as founder</div>
+          </div>
+          <div class="stat fade" data-delay="1">
+            <div class="stat-n">50+</div>
+            <div class="stat-l">Institutions spoken at</div>
+          </div>
+          <div class="stat fade" data-delay="2">
+            <div class="stat-n">4</div>
+            <div class="stat-l">Ways I can help</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Services -->
+  <div id="services" class="section-pad services-section">
+    <div class="section-label fade">What I do</div>
+    <div class="services-grid fade" data-delay="1">
+
+      <div class="svc">
+        <div class="svc-num">01</div>
+        <svg class="svc-icon" viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round">
+          <rect x="3" y="3" width="30" height="30" rx="3"/>
+          <path d="M11 18h14M18 11v14"/>
+        </svg>
+        <h3 class="svc-title">Product Development</h3>
+        <p class="svc-desc">End-to-end GenAI &amp; Agentic AI product builds — from architecture to deployment. Real systems that solve real problems, not demos.</p>
+      </div>
+
+      <div class="svc">
+        <div class="svc-num">02</div>
+        <svg class="svc-icon" viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round">
+          <circle cx="18" cy="18" r="14"/>
+          <path d="M18 10v8l5 4"/>
+        </svg>
+        <h3 class="svc-title">Consulting</h3>
+        <p class="svc-desc">Strategic AI advisory for enterprises. Identify where AI creates the most value — and map the fastest, lowest-risk path to get there.</p>
+      </div>
+
+      <div class="svc">
+        <div class="svc-num">03</div>
+        <svg class="svc-icon" viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round">
+          <path d="M6 30l7-18 7 18"/>
+          <path d="M8 24h10"/>
+          <circle cx="30" cy="12" r="4"/>
+          <path d="M30 16v6"/>
+        </svg>
+        <h3 class="svc-title">Speaking</h3>
+        <p class="svc-desc">Keynotes and panels on GenAI, Agentic AI, and the future of intelligent systems — for tech conferences, corporate events, and institutions.</p>
+      </div>
+
+      <div class="svc">
+        <div class="svc-num">04</div>
+        <svg class="svc-icon" viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round">
+          <rect x="3" y="9" width="30" height="18" rx="2"/>
+          <path d="M12 27v4M24 27v4M9 31h18"/>
+          <path d="M10 17h5M21 17h5M10 13h16"/>
+        </svg>
+        <h3 class="svc-title">Corporate Training</h3>
+        <p class="svc-desc">Hands-on AI upskilling for teams — from Prompt Engineering and LLMs to Agentic architectures and production-grade RAG systems.</p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Expertise -->
+  <div id="expertise" class="section-pad expertise-section">
+    <div class="exp-header fade">
+      <h2 class="exp-hl">What I<br>work with</h2>
+      <p class="exp-sub">Technologies I build, teach, and consult on — in production.</p>
+    </div>
+    <div class="tags fade" data-delay="1">
+      <span class="tag hi">Agentic AI</span>
+      <span class="tag hi">Generative AI</span>
+      <span class="tag hi">Large Language Models</span>
+      <span class="tag hi2">Prompt Engineering</span>
+      <span class="tag hi2">Retrieval-Augmented Generation</span>
+      <span class="tag hi2">Multi-Agent Systems</span>
+      <span class="tag">AI Product Architecture</span>
+      <span class="tag">Machine Learning</span>
+      <span class="tag">Deep Learning</span>
+      <span class="tag">AI Strategy</span>
+      <span class="tag">Enterprise AI</span>
+      <span class="tag">LangChain</span>
+      <span class="tag">OpenAI API</span>
+      <span class="tag">Claude API</span>
+      <span class="tag">Python</span>
+      <span class="tag">Data Science</span>
+      <span class="tag">System Architecture</span>
+      <span class="tag">Blockchain</span>
+      <span class="tag">IoT</span>
+    </div>
+  </div>
+
+  <!-- Yoto -->
+  <div class="section-pad yoto-section">
+    <div class="yoto-card fade">
+      <div>
+        <div class="yoto-badge">Venture</div>
+        <h2 class="yoto-title">Founder of Yoto —<br>Agentic AI, built different.</h2>
+        <p class="yoto-desc">
+          Yoto is an Agentic AI product development company with a dual mission: building the next generation of intelligent software, and empowering rural talent to access world-class AI careers. Technology that creates. Opportunity that transforms.
+        </p>
+      </div>
+      <a href="https://yoto.digital" target="_blank" rel="noopener" class="yoto-link">Visit Yoto &nbsp;↗</a>
+    </div>
+  </div>
+
+  <!-- Contact -->
+  <div id="contact" class="section-pad contact-section">
+    <div class="section-label fade" style="justify-content:center;">Let's work together</div>
+    <h2 class="contact-hl fade" data-delay="1">Have a project<br>in mind?</h2>
+    <p class="contact-sub fade" data-delay="2">Let's talk about what Agentic AI can do for your business.</p>
+    <div class="contact-btns fade" data-delay="3">
+      <a href="mailto:writersrinivasan@gmail.com" class="btn-p">Get in touch</a>
+      <a href="https://linkedin.com/in/writersrinivasan" target="_blank" rel="noopener" class="btn-s">LinkedIn ↗</a>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <hr class="footer-rule">
+  <footer>
+    <span class="footer-l">Srinivasan Ramanujam</span>
+    <ul class="footer-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#expertise">Expertise</a></li>
+      <li><a href="#contact">Contact</a></li>
+      <li><a href="https://linkedin.com/in/writersrinivasan" target="_blank" rel="noopener">LinkedIn</a></li>
+      <li><a href="https://github.com/writersrinivasan" target="_blank" rel="noopener">GitHub</a></li>
+    </ul>
+    <span class="footer-r">©2026</span>
+  </footer>
+
+  <script>
+    // Custom cursor
+    const cur = document.getElementById('cur');
+    const ring = document.getElementById('cur-ring');
+    let mx = 0, my = 0, rx = 0, ry = 0;
+
+    document.addEventListener('mousemove', e => {
+      mx = e.clientX; my = e.clientY;
+      cur.style.left = mx + 'px';
+      cur.style.top = my + 'px';
+    });
+
+    (function raf() {
+      rx += (mx - rx) * .13;
+      ry += (my - ry) * .13;
+      ring.style.left = rx + 'px';
+      ring.style.top = ry + 'px';
+      requestAnimationFrame(raf);
+    })();
+
+    // Nav on scroll
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 60);
+    }, { passive: true });
+
+    // Scroll fade-in
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.fade').forEach(el => io.observe(el));
+
+    // Duplicate marquee for seamless loop
+    const mq = document.getElementById('mq');
+    mq.innerHTML += mq.innerHTML;
+  </script>
+</body>
+</html>

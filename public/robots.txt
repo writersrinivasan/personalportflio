@@ -1,0 +1,12 @@
+# robots.txt — tells search engines what they can and cannot crawl
+
+User-agent: *
+Allow: /
+Allow: /curriculum
+
+# Block Next.js internals from being indexed
+Disallow: /_next/
+Disallow: /api/
+
+# Sitemap location — helps Google, Bing, etc. discover all pages
+Sitemap: https://srinivasanramanujam.com/sitemap.xml
