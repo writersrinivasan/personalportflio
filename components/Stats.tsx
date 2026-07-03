@@ -1,5 +1,6 @@
 const stats = [
   { number: '40,000+', label: 'People Trained', icon: '👥' },
+  { number: '1,000+', label: 'Educators Trained', icon: '🎓' },
   { number: '3', label: 'Months · Live Classes', icon: '📅' },
   { number: '50+', label: 'Institutions Spoken At', icon: '🏛️' },
   { number: '25+', label: 'Years of Industry Experience', icon: '⚡' },
@@ -9,7 +10,7 @@ export default function Stats() {
   return (
     <section className="bg-brand-dark py-16 px-6 md:px-12">
       <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-px bg-white/10">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-px bg-white/10">
           {stats.map((s) => (
             <div
               key={s.label}

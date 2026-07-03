@@ -117,6 +117,7 @@ export default function Hero() {
         <div className="reveal reveal-delay-4 flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-white/65 text-sm font-medium">
           {[
             { icon: '👥', text: '40,000+ People Trained' },
+            { icon: '🎓', text: '1,000+ Educators Trained' },
             { icon: '🏛️', text: '50+ Institutions' },
             { icon: '📅', text: '3 Months · Live Classes' },
             { icon: '🏆', text: 'Real Industry Projects' },
