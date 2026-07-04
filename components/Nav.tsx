@@ -84,6 +84,14 @@ export default function Nav() {
           {/* Desktop CTA + Mobile controls */}
           <div className="flex items-center gap-3">
             <a
+              href="/community"
+              className={`text-sm font-medium transition-colors hover:text-brand-orange ${
+                scrolled ? 'text-gray-600' : 'text-white/80'
+              }`}
+            >
+              Community
+            </a>
+            <a
               href="#book"
               className="bg-brand-orange hover:bg-brand-purple text-white text-sm font-semibold px-5 py-2.5 rounded-full transition-all hover:shadow-lg hover:shadow-orange-200 hover:-translate-y-0.5"
             >
@@ -129,9 +137,16 @@ export default function Nav() {
               ))}
             </ul>
             <a
+              href="/community"
+              onClick={close}
+              className="block py-3 text-gray-700 hover:text-brand-orange font-medium border-b border-gray-100 transition-colors"
+            >
+              Community
+            </a>
+            <a
               href="#book"
               onClick={close}
-              className="block w-full bg-brand-orange hover:bg-brand-purple text-white text-center font-bold px-6 py-3.5 rounded-full transition-colors"
+              className="block w-full bg-brand-orange hover:bg-brand-purple text-white text-center font-bold px-6 py-3.5 rounded-full transition-colors mt-4"
             >
               Book Your Free Discovery Call →
             </a>

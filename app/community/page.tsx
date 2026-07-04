@@ -191,7 +191,7 @@ export default function CommunityPage() {
                 Join our private WhatsApp group for daily AI insights, job opportunities, peer support, and direct access to Srinivasan.
               </p>
               <a
-                href="https://chat.whatsapp.com/PLACEHOLDER"
+                href="https://whatsapp.com/channel/0029VaZ8b6A8vd1JIJUASq26"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold transition-all hover:opacity-90"
@@ -200,7 +200,7 @@ export default function CommunityPage() {
                 <span>Join WhatsApp Group →</span>
               </a>
               <p className="text-xs mt-3" style={{ color: 'rgba(240,235,227,0.3)' }}>
-                Link will be activated once you complete your profile below.
+                Stay connected with daily AI insights and exclusive opportunities.
               </p>
             </div>
           </div>

@@ -1,6 +1,16 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
-import { verifyToken, COOKIE } from '@/lib/auth'
+import { jwtVerify } from 'jose'
+
+// Inlined here to avoid importing next/headers (not available in Edge runtime)
+const COOKIE = 'sr_community_token'
+const edgeSecret = new TextEncoder().encode(
+  process.env.JWT_SECRET ?? 'sr-community-2026-fallback'
+)
+async function hasValidSession(token: string | undefined) {
+  if (!token) return false
+  try { await jwtVerify(token, edgeSecret); return true } catch { return false }
+}
 
 // Bots that should never access the site (scrapers, vulnerability scanners, etc.)
 // Note: legitimate search engine bots (Googlebot, Bingbot, etc.) are explicitly allowed below.
@@ -33,8 +43,7 @@ export async function middleware(request: NextRequest) {
   // Community route protection
   if (pathname.startsWith('/community')) {
     const token = request.cookies.get(COOKIE)?.value
-    const session = token ? await verifyToken(token) : null
-    if (!session) {
+    if (!(await hasValidSession(token))) {
       const loginUrl = new URL('/login', request.url)
       loginUrl.searchParams.set('next', pathname)
       return NextResponse.redirect(loginUrl)
