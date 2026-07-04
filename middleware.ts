@@ -50,6 +50,13 @@ export async function middleware(request: NextRequest) {
     }
   }
 
+  // Admin route protection
+  if (pathname.startsWith('/admin/community')) {
+    const token = request.cookies.get('sr_admin_token')?.value
+    const valid = token ? await hasValidSession(token) : false
+    if (!valid) return NextResponse.redirect(new URL('/admin/login', request.url))
+  }
+
   // 1. Block known attack tool signatures in the User-Agent header
   if (BLOCKED_PATTERNS.some(p => p.test(ua))) {
     return new NextResponse('Forbidden', { status: 403 })

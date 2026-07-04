@@ -125,16 +125,22 @@ export default function CommunityPage() {
         style={{ background: 'rgba(10,10,10,0.85)', backdropFilter: 'blur(16px)', borderBottom: '1px solid rgba(255,255,255,0.06)' }}
       >
         <div className="flex items-center gap-3">
-          <svg width="28" height="28" viewBox="0 0 48 48" fill="none">
+          <svg width="32" height="32" viewBox="0 0 100 100" fill="none" aria-label="SR mark">
             <defs>
-              <linearGradient id="lg-nav" x1="0" y1="0" x2="48" y2="48" gradientUnits="userSpaceOnUse">
-                <stop offset="0%" stopColor="#E8956A" /><stop offset="100%" stopColor="#A84B2A" />
+              <linearGradient id="lg-comm-nav" gradientUnits="userSpaceOnUse" x1="4" y1="8" x2="96" y2="92">
+                <stop offset="0%"   stopColor="#E8956A"/>
+                <stop offset="45%"  stopColor="#CF6A3E"/>
+                <stop offset="100%" stopColor="#A84B2A"/>
               </linearGradient>
             </defs>
-            <path d="M 10 10 C 10 10, 6 24, 14 30 C 22 36, 24 28, 18 24 C 12 20, 20 14, 24 18" stroke="url(#lg-nav)" strokeWidth="3" strokeLinecap="round" fill="none"/>
-            <line x1="28" y1="10" x2="28" y2="38" stroke="url(#lg-nav)" strokeWidth="3" strokeLinecap="round"/>
-            <path d="M 28 10 C 28 10, 40 10, 40 19 C 40 28, 28 26, 28 26" stroke="url(#lg-nav)" strokeWidth="3" strokeLinecap="round" fill="none"/>
-            <line x1="28" y1="26" x2="40" y2="38" stroke="url(#lg-nav)" strokeWidth="3" strokeLinecap="round"/>
+            <path d="M 43,14 C 43,6 8,6 8,26 C 8,46 44,46 44,66 C 44,86 8,86 8,76"
+                  fill="none" stroke="url(#lg-comm-nav)" strokeWidth="8.5" strokeLinecap="round"/>
+            <path d="M 57,10 L 57,88"
+                  fill="none" stroke="url(#lg-comm-nav)" strokeWidth="8.5" strokeLinecap="round"/>
+            <path d="M 57,10 C 78,10 93,20 93,36 C 93,53 78,56 57,56"
+                  fill="none" stroke="url(#lg-comm-nav)" strokeWidth="8.5" strokeLinecap="round"/>
+            <path d="M 68,56 L 93,88"
+                  fill="none" stroke="url(#lg-comm-nav)" strokeWidth="8.5" strokeLinecap="round"/>
           </svg>
           <span className="font-semibold text-sm" style={{ color: '#F0EBE3' }}>GenAI Community</span>
         </div>
