@@ -11,10 +11,12 @@ export default function Stats() {
     <section className="bg-brand-dark py-16 px-6 md:px-12">
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-px bg-white/10">
-          {stats.map((s) => (
+          {stats.map((s, i) => (
             <div
               key={s.label}
-              className="bg-brand-dark2 px-8 py-10 text-center hover:bg-[#3D1C0A] transition-colors group"
+              className={`bg-brand-dark2 px-8 py-10 text-center hover:bg-[#3D1C0A] transition-colors group ${
+                i === 4 ? 'col-span-2 md:col-span-1' : ''
+              }`}
             >
               <div className="text-3xl mb-3 group-hover:scale-110 transition-transform inline-block">{s.icon}</div>
               <div className="text-4xl md:text-5xl font-extrabold bg-brand-gradient bg-clip-text text-transparent mb-2 tracking-tight">
