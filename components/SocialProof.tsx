@@ -18,10 +18,10 @@ const testimonials = [
     color: 'bg-[#A84B2A]',
   },
   {
-    name: 'Add Student Name',
-    role: 'Product Manager, MNC',
-    text: "I took this as a working professional. Now I'm the go-to person for AI implementation in my entire department. The real-world use cases were exactly what I needed.",
-    avatar: 'AS',
+    name: 'Sanjan Sunil',
+    role: 'Professional @ Hexaware',
+    text: "For any query related to AI, GenAI, or Agentic AI — from now on I will reach out to Srinivasan Ramanujam. I liked this session a lot. Highly recommended.",
+    avatar: 'SS',
     color: 'bg-[#C8862A]',
   },
 ]
