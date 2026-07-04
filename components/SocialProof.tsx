@@ -4,10 +4,10 @@ import { useEffect, useRef } from 'react'
 
 const testimonials = [
   {
-    name: 'Add Student Name',
-    role: 'Software Engineer @ Company',
-    text: 'This course changed everything for me. I went from knowing nothing about AI to building my first Agentic AI product in week one. The reverse engineering method is genius.',
-    avatar: 'AS',
+    name: 'Likhitha Doddoji',
+    role: 'Professional @ Hexaware',
+    text: 'Through this GenAI & Agentic AI course, I learnt how to develop an end-to-end product in an AI SDLC environment in the most easiest and efficient way.',
+    avatar: 'LD',
     color: 'bg-[#CF6A3E]',
   },
   {
