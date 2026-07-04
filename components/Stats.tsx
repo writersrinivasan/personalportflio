@@ -1,5 +1,5 @@
 const stats = [
-  { number: '40,000+', label: 'People Trained', icon: '👥' },
+  { number: '40K+', label: 'People Trained', icon: '👥' },
   { number: '1,000+', label: 'Educators Trained', icon: '🎓' },
   { number: '3', label: 'Months · Live Classes', icon: '📅' },
   { number: '50+', label: 'Institutions Spoken At', icon: '🏛️' },
