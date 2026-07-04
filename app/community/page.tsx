@@ -14,15 +14,42 @@ type Profile = {
   resume_name: string | null
 }
 
+type Announcement = {
+  id: string
+  title: string
+  body: string
+  tag: string
+  pinned: boolean
+  created_at: string
+}
+
 const CORAL = '#CF6A3E'
 const CORAL_LIGHT = '#E8956A'
+
+const TAG_COLORS: Record<string, string> = {
+  General:     'rgba(240,235,227,0.1)',
+  Opportunity: 'rgba(74,222,128,0.12)',
+  Event:       'rgba(96,165,250,0.12)',
+  Newsletter:  'rgba(207,106,62,0.18)',
+  Resource:    'rgba(167,139,250,0.12)',
+  Urgent:      'rgba(248,113,113,0.15)',
+}
+const TAG_TEXT: Record<string, string> = {
+  General:     'rgba(240,235,227,0.5)',
+  Opportunity: '#4ade80',
+  Event:       '#60a5fa',
+  Newsletter:  '#E8956A',
+  Resource:    '#a78bfa',
+  Urgent:      '#f87171',
+}
 
 export default function CommunityPage() {
   const router  = useRouter()
   const fileRef = useRef<HTMLInputElement>(null)
 
-  const [profile,   setProfile]   = useState<Profile | null>(null)
-  const [loading,   setLoading]   = useState(true)
+  const [profile,       setProfile]       = useState<Profile | null>(null)
+  const [announcements, setAnnouncements] = useState<Announcement[]>([])
+  const [loading,       setLoading]       = useState(true)
   const [saving,    setSaving]    = useState(false)
   const [uploading, setUploading] = useState(false)
   const [toast,     setToast]     = useState('')
@@ -51,6 +78,11 @@ export default function CommunityPage() {
         setLoading(false)
       })
       .catch(() => router.push('/login'))
+
+    fetch('/api/community/announcements')
+      .then(r => r.ok ? r.json() : [])
+      .then(d => setAnnouncements(Array.isArray(d) ? d : []))
+      .catch(() => {})
   }, [router])
 
   async function saveProfile() {
@@ -178,6 +210,46 @@ export default function CommunityPage() {
             You&apos;re part of an exclusive group of GenAI practitioners. Connect, learn, and grow together.
           </p>
         </div>
+
+        {/* Announcements feed */}
+        {announcements.length > 0 && (
+          <section>
+            <p className="text-xs font-medium tracking-widest uppercase mb-3 flex items-center gap-2" style={{ color: 'rgba(240,235,227,0.35)' }}>
+              <span>📢</span> From Srinivasan
+            </p>
+            <div className="space-y-3">
+              {announcements.map(a => (
+                <div
+                  key={a.id}
+                  className="rounded-2xl p-5"
+                  style={{
+                    background: a.pinned ? 'rgba(207,106,62,0.07)' : 'rgba(255,255,255,0.03)',
+                    border: a.pinned ? '1px solid rgba(207,106,62,0.22)' : '1px solid rgba(255,255,255,0.07)',
+                  }}
+                >
+                  <div className="flex items-start gap-3">
+                    {a.pinned && <span className="text-sm mt-0.5">📌</span>}
+                    <div className="flex-1 min-w-0">
+                      <div className="flex flex-wrap items-center gap-2 mb-1">
+                        <span className="font-semibold text-sm">{a.title}</span>
+                        <span
+                          className="text-xs px-2 py-0.5 rounded-full"
+                          style={{ background: TAG_COLORS[a.tag] || TAG_COLORS.General, color: TAG_TEXT[a.tag] || TAG_TEXT.General }}
+                        >
+                          {a.tag}
+                        </span>
+                      </div>
+                      <p className="text-sm whitespace-pre-wrap" style={{ color: 'rgba(240,235,227,0.7)' }}>{a.body}</p>
+                      <p className="text-xs mt-2" style={{ color: 'rgba(240,235,227,0.25)' }}>
+                        {new Date(a.created_at).toLocaleString('en-IN', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' })}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
 
         {/* WhatsApp community */}
         <section

@@ -17,6 +17,34 @@ type Member = {
   updated_at: string | null
 }
 
+type Announcement = {
+  id: string
+  title: string
+  body: string
+  tag: string
+  pinned: boolean
+  created_at: string
+}
+
+const TAGS = ['General', 'Opportunity', 'Event', 'Newsletter', 'Resource', 'Urgent']
+
+const TAG_COLORS: Record<string, string> = {
+  General:     'rgba(240,235,227,0.15)',
+  Opportunity: 'rgba(74,222,128,0.15)',
+  Event:       'rgba(96,165,250,0.15)',
+  Newsletter:  'rgba(207,106,62,0.2)',
+  Resource:    'rgba(167,139,250,0.15)',
+  Urgent:      'rgba(248,113,113,0.2)',
+}
+const TAG_TEXT: Record<string, string> = {
+  General:     'rgba(240,235,227,0.6)',
+  Opportunity: '#4ade80',
+  Event:       '#60a5fa',
+  Newsletter:  '#E8956A',
+  Resource:    '#a78bfa',
+  Urgent:      '#f87171',
+}
+
 const CORAL = '#CF6A3E'
 const CORAL_LIGHT = '#E8956A'
 
@@ -41,10 +69,29 @@ export default function AdminDashboard() {
   const [search,  setSearch]    = useState('')
   const [dlLoading, setDlLoading] = useState<string | null>(null)
 
+  // Announcements state
+  const [announcements, setAnnouncements] = useState<Announcement[]>([])
+  const [annTitle,  setAnnTitle]  = useState('')
+  const [annBody,   setAnnBody]   = useState('')
+  const [annTag,    setAnnTag]    = useState('General')
+  const [annPinned, setAnnPinned] = useState(false)
+  const [annSaving, setAnnSaving] = useState(false)
+  const [annToast,  setAnnToast]  = useState('')
+
+  function showToast(msg: string) {
+    setAnnToast(msg)
+    setTimeout(() => setAnnToast(''), 3000)
+  }
+
   useEffect(() => {
     fetch('/api/admin/members')
       .then(r => { if (r.status === 401) { router.push('/admin/login'); throw new Error() } return r.json() })
       .then(d => { setMembers(d); setLoading(false) })
+      .catch(() => {})
+
+    fetch('/api/admin/announcements')
+      .then(r => r.ok ? r.json() : [])
+      .then(d => setAnnouncements(Array.isArray(d) ? d : []))
       .catch(() => {})
   }, [router])
 
@@ -60,6 +107,37 @@ export default function AdminDashboard() {
     if (res.ok) {
       const { url } = await res.json()
       window.open(url, '_blank')
+    }
+  }
+
+  async function postAnnouncement() {
+    if (!annTitle.trim() || !annBody.trim()) return
+    setAnnSaving(true)
+    const res = await fetch('/api/admin/announcements', {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify({ title: annTitle, body: annBody, tag: annTag, pinned: annPinned }),
+    })
+    setAnnSaving(false)
+    if (res.ok) {
+      const newAnn = await res.json()
+      setAnnouncements(prev => [newAnn, ...prev])
+      setAnnTitle(''); setAnnBody(''); setAnnTag('General'); setAnnPinned(false)
+      showToast('Announcement posted!')
+    } else {
+      showToast('Failed to post.')
+    }
+  }
+
+  async function deleteAnnouncement(id: string) {
+    const res = await fetch('/api/admin/announcements', {
+      method:  'DELETE',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify({ id }),
+    })
+    if (res.ok) {
+      setAnnouncements(prev => prev.filter(a => a.id !== id))
+      showToast('Deleted.')
     }
   }
 
@@ -129,6 +207,14 @@ export default function AdminDashboard() {
         </button>
       </nav>
 
+      {/* Toast */}
+      {annToast && (
+        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 px-6 py-3 rounded-xl text-sm font-medium shadow-lg"
+          style={{ background: '#1E1208', border: `1px solid ${CORAL}`, color: CORAL_LIGHT }}>
+          {annToast}
+        </div>
+      )}
+
       <div className="max-w-6xl mx-auto px-4 py-8 space-y-6">
 
         {/* Stats strip */}
@@ -151,6 +237,122 @@ export default function AdminDashboard() {
             </div>
           ))}
         </div>
+
+        {/* Announcement composer */}
+        <section className="rounded-2xl p-6" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)' }}>
+          <h2 className="text-base font-semibold mb-4 flex items-center gap-2">
+            <span>📢</span> Post Announcement
+          </h2>
+          <div className="space-y-3">
+            <input
+              type="text"
+              placeholder="Title  (e.g. New job opening at Hexaware!)"
+              value={annTitle}
+              onChange={e => setAnnTitle(e.target.value)}
+              className="w-full rounded-lg px-4 py-3 text-sm outline-none"
+              style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', color: '#F0EBE3' }}
+              onFocus={e => { e.currentTarget.style.borderColor = 'rgba(207,106,62,0.5)' }}
+              onBlur={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)' }}
+            />
+            <textarea
+              rows={4}
+              placeholder="Write your announcement here… share an opportunity, an event, a resource, or a shoutout."
+              value={annBody}
+              onChange={e => setAnnBody(e.target.value)}
+              className="w-full rounded-lg px-4 py-3 text-sm outline-none resize-none"
+              style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', color: '#F0EBE3' }}
+              onFocus={e => { e.currentTarget.style.borderColor = 'rgba(207,106,62,0.5)' }}
+              onBlur={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)' }}
+            />
+            <div className="flex flex-wrap items-center gap-3">
+              {/* Tag selector */}
+              <div className="flex flex-wrap gap-2">
+                {TAGS.map(t => (
+                  <button
+                    key={t}
+                    onClick={() => setAnnTag(t)}
+                    className="text-xs px-3 py-1.5 rounded-full font-medium transition-all"
+                    style={{
+                      background: annTag === t ? TAG_COLORS[t] : 'rgba(255,255,255,0.05)',
+                      color:      annTag === t ? TAG_TEXT[t]   : 'rgba(240,235,227,0.4)',
+                      border:     annTag === t ? `1px solid ${TAG_TEXT[t]}40` : '1px solid rgba(255,255,255,0.08)',
+                    }}
+                  >
+                    {t}
+                  </button>
+                ))}
+              </div>
+              {/* Pin toggle */}
+              <label className="flex items-center gap-2 cursor-pointer ml-auto">
+                <div
+                  className="w-5 h-5 rounded flex items-center justify-center transition-all"
+                  style={{
+                    background: annPinned ? `linear-gradient(135deg,${CORAL_LIGHT},${CORAL})` : 'rgba(255,255,255,0.06)',
+                    border: annPinned ? 'none' : '1px solid rgba(255,255,255,0.12)',
+                  }}
+                  onClick={() => setAnnPinned(p => !p)}
+                >
+                  {annPinned && <svg width="11" height="8" viewBox="0 0 11 8" fill="none"><path d="M1 4L4 7L10 1" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>}
+                </div>
+                <span className="text-xs" style={{ color: 'rgba(240,235,227,0.5)' }}>Pin to top</span>
+              </label>
+            </div>
+            <button
+              onClick={postAnnouncement}
+              disabled={annSaving || !annTitle.trim() || !annBody.trim()}
+              className="w-full rounded-xl py-3 text-sm font-semibold transition-all"
+              style={{
+                background: annSaving || !annTitle.trim() || !annBody.trim()
+                  ? 'rgba(207,106,62,0.3)'
+                  : `linear-gradient(135deg,${CORAL_LIGHT},${CORAL})`,
+                color: '#fff',
+                cursor: annSaving || !annTitle.trim() || !annBody.trim() ? 'not-allowed' : 'pointer',
+              }}
+            >
+              {annSaving ? 'Posting…' : 'Post to Community →'}
+            </button>
+          </div>
+
+          {/* Posted announcements list */}
+          {announcements.length > 0 && (
+            <div className="mt-5 space-y-2">
+              <p className="text-xs font-medium tracking-wide uppercase mb-3" style={{ color: 'rgba(240,235,227,0.35)' }}>
+                Posted ({announcements.length})
+              </p>
+              {announcements.map(a => (
+                <div
+                  key={a.id}
+                  className="flex items-start gap-3 rounded-xl p-3"
+                  style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)' }}
+                >
+                  {a.pinned && <span className="text-xs mt-0.5">📌</span>}
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 mb-0.5 flex-wrap">
+                      <span className="text-sm font-medium">{a.title}</span>
+                      <span
+                        className="text-xs px-2 py-0.5 rounded-full"
+                        style={{ background: TAG_COLORS[a.tag] || TAG_COLORS.General, color: TAG_TEXT[a.tag] || TAG_TEXT.General }}
+                      >
+                        {a.tag}
+                      </span>
+                    </div>
+                    <p className="text-xs" style={{ color: 'rgba(240,235,227,0.45)' }}>{a.body}</p>
+                    <p className="text-xs mt-1" style={{ color: 'rgba(240,235,227,0.25)' }}>
+                      {new Date(a.created_at).toLocaleString('en-IN', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' })}
+                    </p>
+                  </div>
+                  <button
+                    onClick={() => deleteAnnouncement(a.id)}
+                    className="shrink-0 text-xs px-2 py-1 rounded-lg transition-all"
+                    style={{ color: '#f87171', border: '1px solid rgba(248,113,113,0.2)' }}
+                  >
+                    Delete
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
+        </section>
 
         {/* Search */}
         <div className="relative">
