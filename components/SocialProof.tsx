@@ -11,10 +11,10 @@ const testimonials = [
     color: 'bg-[#CF6A3E]',
   },
   {
-    name: 'Add Student Name',
-    role: 'Career Switcher → AI Developer',
-    text: "I was in a completely different field. Three months later I have a portfolio, a new job, and a salary I didn't think was possible. The teaching style just clicks.",
-    avatar: 'AS',
+    name: 'Archana G',
+    role: 'Professional @ Hexaware',
+    text: "The journey has been a pleasant experience. I recommend every fresher and even experienced professionals who want to learn GenAI in depth — choose Srinivasan Ramanujam's course. You won't regret it.",
+    avatar: 'AG',
     color: 'bg-[#A84B2A]',
   },
   {
